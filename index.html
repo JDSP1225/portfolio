@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>James Daryll Paglinawan | Software Developer</title>
+  <link rel="stylesheet" href="./dist/output.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    
+    :root {
+      --primary: 59 130 246;
+    }
+    
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+    
+    /* ── Smooth scroll on the root ─────────────────────────────── */
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    .hero-bg {
+      background: linear-gradient(135deg, #0f172a 0%, #1e2937 100%);
+    }
+    
+    .nav-link {
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-link:after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -2px;
+      left: 0;
+      background-color: rgb(var(--primary));
+      transition: width 0.3s ease;
+    }
+    
+    .nav-link:hover:after {
+      width: 100%;
+    }
+
+    /* Active nav link indicator */
+    .nav-link.active {
+      color: white;
+    }
+    .nav-link.active:after {
+      width: 100%;
+    }
+    
+    .project-card {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .project-card:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    }
+    
+    /* ── Fade-in: bidirectional (up on enter, reset on leave) ──── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .skill-pill {
+      transition: all 0.3s ease;
+    }
+    
+    .skill-pill:hover {
+      transform: scale(1.08) translateY(-2px);
+      background-color: rgb(var(--primary) / 0.1);
+    }
+
+    /* ── Toast notification ─────────────────────────────────────── */
+    #toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(120%);
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      z-index: 9999;
+    }
+    #toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body class="bg-zinc-950 text-zinc-100">
+
+  <!-- Toast Notification -->
+  <div id="toast" class="bg-zinc-800 border border-zinc-700 rounded-2xl px-6 py-4 flex items-center gap-3 shadow-2xl text-sm font-medium">
+    <i class="fas fa-circle-check text-emerald-400 text-lg"></i>
+    <span id="toastMsg">Message sent!</span>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="sticky top-0 z-50 bg-zinc-950/80 backdrop-blur-lg border-b border-zinc-800">
+    <div class="max-w-6xl mx-auto px-6 py-5 flex justify-between items-center">
+      <div class="text-2xl font-bold tracking-tight">James Daryll</div>
+      
+      <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+        <a href="#home" class="nav-link text-zinc-300 hover:text-white">Home</a>
+        <a href="#about" class="nav-link text-zinc-300 hover:text-white">About</a>
+        <a href="#projects" class="nav-link text-zinc-300 hover:text-white">Projects</a>
+        <a href="#contact" class="nav-link text-zinc-300 hover:text-white">Contact</a>
+      </div>
+      
+      <a href="#contact" 
+         class="px-6 py-3 bg-blue-600 hover:bg-blue-500 transition-colors rounded-full text-sm font-semibold flex items-center gap-2">
+        <i class="fas fa-paper-plane"></i>
+        Get In Touch
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero / Home Section -->
+  <section id="home" class="hero-bg min-h-screen flex items-center">
+    <div class="max-w-6xl mx-auto px-6 py-24 grid md:grid-cols-2 gap-12 items-center">
+      <div class="space-y-8">
+        <div class="inline-flex items-center gap-2 px-4 py-2 bg-zinc-900 rounded-full text-sm">
+          <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+          Available for the Job
+        </div>
+        
+        <h1 class="text-6xl md:text-7xl font-bold leading-tight tracking-tighter">
+          Hi, I'm <span class="text-blue-500">Paglinawan James Daryll</span>
+        </h1>
+        
+        <p class="text-3xl text-zinc-400 font-light">
+          Software Developer
+        </p>
+        
+        <p class="text-lg text-zinc-400 max-w-lg">
+          An aspiring software developer with programming skills, passionate about learning and building innovative solutions. I am eager to contribute to impactful projects and grow in the tech industry.
+        </p>
+        
+        <div class="flex flex-wrap gap-4">
+          <a href="#projects" 
+             class="px-8 py-4 bg-blue-600 hover:bg-blue-500 transition-all rounded-2xl font-semibold text-lg flex items-center gap-3 group">
+            View My Projects
+            <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+          </a>
+          
+          <a href="#about" 
+             class="px-8 py-4 border border-zinc-700 hover:border-zinc-500 transition-all rounded-2xl font-semibold text-lg">
+            Learn More About Me
+          </a>
+        </div>
+        
+        <!-- Social Icons -->
+        <div class="flex gap-6 text-2xl pt-6">
+          <a href="https://github.com" target="_blank" class="hover:text-blue-400 transition-colors"><i class="fab fa-github"></i></a>
+          <a href="https://linkedin.com" target="_blank" class="hover:text-blue-400 transition-colors"><i class="fab fa-linkedin"></i></a>
+          <a href="https://twitter.com" target="_blank" class="hover:text-blue-400 transition-colors"><i class="fab fa-x-twitter"></i></a>
+        </div>
+      </div>
+      
+      <!-- Hero Image -->
+      <div class="flex justify-center md:justify-end">
+        <div class="relative">
+          <div class="w-80 h-80 md:w-96 md:h-96 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-3xl overflow-hidden shadow-2xl">
+            <img src="assets/profile.jpg" 
+                 alt="James Daryll Paglinawan" 
+                 class="w-full h-full object-cover grayscale-[0.3] hover:grayscale-0 transition-all duration-700">
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 text-xs tracking-widest">
+      <div class="animate-bounce">SCROLL</div>
+      <div class="w-px h-12 bg-gradient-to-b from-transparent via-zinc-500 to-transparent"></div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="py-24 bg-zinc-900">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="grid md:grid-cols-12 gap-16 items-center">
+        <!-- Left column -->
+        <div class="md:col-span-5">
+          <div class="sticky top-28">
+            
+            <h2 class="text-5xl font-semibold tracking-tight mb-8">About Me</h2>
+            
+            <div class="space-y-6 text-zinc-400">
+              <p>
+                I'm a fresh graduate software developer with a strong foundation in programming and problem-solving. I specialize in backend development and database design.
+              </p>
+              <p>
+                When I'm not coding, you can find me watching anime, playing outdoor sports, 
+                or reading tech blogs online.
+              </p>
+            </div>
+            
+            <!-- Download Resume -->
+            <a href="#" 
+               class="mt-10 inline-flex items-center gap-3 px-6 py-3 border border-zinc-700 hover:border-white transition-colors rounded-2xl">
+              <i class="fas fa-download"></i>
+              <span class="font-medium">Download Resume</span>
+            </a>
+          </div>
+        </div>
+        
+        <!-- Right column - Skills & Info -->
+        <div class="md:col-span-7 space-y-12">
+          <!-- Skills -->
+          <div>
+            <h3 class="text-2xl font-semibold mb-8">Technologies I work with</h3>
+            <div class="grid grid-cols-3 md:grid-cols-4 gap-4">
+              <div class="skill-pill bg-zinc-800 hover:bg-blue-950/30 border border-zinc-700 rounded-2xl p-5 text-center">
+                <div class="text-3xl mb-3">⚛️</div>
+                <div class="font-medium">React / Next.js</div>
+              </div>
+              <div class="skill-pill bg-zinc-800 hover:bg-blue-950/30 border border-zinc-700 rounded-2xl p-5 text-center">
+                <div class="text-3xl mb-3">🐍</div>
+                <div class="font-medium">Python / Django</div>
+              </div>
+              <div class="skill-pill bg-zinc-800 hover:bg-blue-950/30 border border-zinc-700 rounded-2xl p-5 text-center">
+                <div class="text-3xl mb-3">📱</div>
+                <div class="font-medium">Flutter</div>
+              </div>
+              <div class="skill-pill bg-zinc-800 hover:bg-blue-950/30 border border-zinc-700 rounded-2xl p-5 text-center">
+                <div class="text-3xl mb-3">🔥</div>
+                <div class="font-medium">Firebase</div>
+              </div>
+              <div class="skill-pill bg-zinc-800 hover:bg-blue-950/30 border border-zinc-700 rounded-2xl p-5 text-center">
+                <div class="text-3xl mb-3">🐘</div>
+                <div class="font-medium">PostgreSQL / MySQL</div>
+              </div>
+              <div class="skill-pill bg-zinc-800 hover:bg-blue-950/30 border border-zinc-700 rounded-2xl p-5 text-center">
+                <div class="text-3xl mb-3">☁️</div>
+                <div class="font-medium">AWS / Vercel</div>
+              </div>
+              <div class="skill-pill bg-zinc-800 hover:bg-blue-950/30 border border-zinc-700 rounded-2xl p-5 text-center">
+                <div class="text-3xl mb-3">🟦</div>
+                <div class="font-medium">TypeScript</div>
+              </div>
+              <div class="skill-pill bg-zinc-800 hover:bg-blue-950/30 border border-zinc-700 rounded-2xl p-5 text-center">
+                <div class="text-3xl mb-3">🎨</div>
+                <div class="font-medium">Tailwind CSS</div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Fun facts / Experience -->
+          <div class="grid grid-cols-2 gap-8">
+            <div class="bg-zinc-800/50 border border-zinc-700 rounded-3xl p-8">
+              <div class="text-5xl font-bold text-blue-400 mb-2">GAMER</div>
+              <div class="font-medium text-zinc-300">Gaming Skillsets</div>
+              <div class="text-sm text-zinc-500 mt-1">Competitive, Strategic, and Adaptive</div>
+            </div>
+            <div class="bg-zinc-800/50 border border-zinc-700 rounded-3xl p-8">
+              <div class="text-5xl font-bold text-blue-400 mb-2">BOXER</div>
+              <div class="font-medium text-zinc-300">Boxing Skillsets</div>
+              <div class="text-sm text-zinc-500 mt-1">Disciplined, Resilient, and Focused</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects" class="py-24">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-5xl font-semibold tracking-tight mt-3">Featured Projects</h2>
+        <p class="text-zinc-400 mt-4 max-w-md mx-auto">
+          A selection of recent work. Each project represents a unique challenge and solution.
+        </p>
+      </div>
+      
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Project 1 -->
+        <div class="project-card bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden group">
+          <div class="h-56 bg-zinc-800 relative overflow-hidden">
+            <img src="assets/juancharge.png" alt="JuanCharge" 
+                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <div class="absolute top-4 right-4 bg-black/70 px-3 py-1 text-xs rounded-full">Mobile + Web</div>
+          </div>
+          <div class="p-8">
+            <h3 class="text-2xl font-semibold mb-2">JuanCharge</h3>
+            <p class="text-zinc-400 text-sm leading-relaxed mb-6">
+              A Solar–Wind Powered Smart Kiosk with AI-Enabled Waste Segregation and Renewable Energy Access.
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-xs px-4 py-1.5 bg-zinc-800 text-zinc-400 rounded-full">React</span>
+              <span class="text-xs px-4 py-1.5 bg-zinc-800 text-zinc-400 rounded-full">Vue</span>
+              <span class="text-xs px-4 py-1.5 bg-zinc-800 text-zinc-400 rounded-full">Laravel</span>
+              <span class="text-xs px-4 py-1.5 bg-zinc-800 text-zinc-400 rounded-full">MySql</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Project 2 -->
+        <div class="project-card bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden group">
+          <div class="h-56 bg-zinc-800 relative overflow-hidden">
+            <img src="assets/aerosense.png" alt="Aerosense" 
+                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <div class="absolute top-4 right-4 bg-black/70 px-3 py-1 text-xs rounded-full">Mobile + IoT</div>
+          </div>
+          <div class="p-8">
+            <h3 class="text-2xl font-semibold mb-2">Aerosense</h3>
+            <p class="text-zinc-400 text-sm leading-relaxed mb-6">
+              A real-time air quality monitoring system using ESP8266, PMS7003, GM7, and OLED display.
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-xs px-4 py-1.5 bg-zinc-800 text-zinc-400 rounded-full">Dart</span>
+              <span class="text-xs px-4 py-1.5 bg-zinc-800 text-zinc-400 rounded-full">Flutter</span>
+              <span class="text-xs px-4 py-1.5 bg-zinc-800 text-zinc-400 rounded-full">Firebase</span>
+              <span class="text-xs px-4 py-1.5 bg-zinc-800 text-zinc-400 rounded-full">C++</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Project 3 -->
+        <div class="project-card bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden group">
+          <div class="h-56 bg-zinc-800 relative overflow-hidden">
+            <img src="assets/velora.png" alt="Velora" 
+                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <div class="absolute top-4 right-4 bg-black/70 px-3 py-1 text-xs rounded-full">Mobile</div>
+          </div>
+          <div class="p-8">
+            <h3 class="text-2xl font-semibold mb-2">Velora</h3>
+            <p class="text-zinc-400 text-sm leading-relaxed mb-6">
+              An android application where you can plan, track, collaborate, inform and demonstrate on how to ride a bike and how to repair it manually with the use of Artificial Intelligence.
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-xs px-4 py-1.5 bg-zinc-800 text-zinc-400 rounded-full">Dart</span>
+              <span class="text-xs px-4 py-1.5 bg-zinc-800 text-zinc-400 rounded-full">Flutter</span>
+              <span class="text-xs px-4 py-1.5 bg-zinc-800 text-zinc-400 rounded-full">Firebase</span>
+              <span class="text-xs px-4 py-1.5 bg-zinc-800 text-zinc-400 rounded-full">C++</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="text-center mt-16">
+        <a href="https://github.com/JDSP1225" target="_blank"
+           class="inline-flex items-center gap-3 text-zinc-400 hover:text-white transition-colors">
+          <span class="font-medium">View all projects on GitHub</span>
+          <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="py-24 bg-zinc-900">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-5xl font-semibold tracking-tight mt-3">Let's Work Together</h2>
+        <p class="text-zinc-400 mt-4">Have a project in mind? I'd love to hear from you.</p>
+      </div>
+      
+      <div class="grid md:grid-cols-5 gap-12">
+        <!-- Contact Form -->
+        <div class="md:col-span-3">
+          <form id="contactForm" class="space-y-8">
+            <div class="grid grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm text-zinc-400 mb-2">Name</label>
+                <input type="text" id="name" required
+                       class="w-full bg-zinc-800 border border-zinc-700 focus:border-blue-500 rounded-2xl px-6 py-4 outline-none transition-colors">
+              </div>
+              <div>
+                <label class="block text-sm text-zinc-400 mb-2">Email</label>
+                <input type="email" id="email" required
+                       class="w-full bg-zinc-800 border border-zinc-700 focus:border-blue-500 rounded-2xl px-6 py-4 outline-none transition-colors">
+              </div>
+            </div>
+            
+            <div>
+              <label class="block text-sm text-zinc-400 mb-2">Message</label>
+              <textarea id="message" rows="6" required
+                        class="w-full bg-zinc-800 border border-zinc-700 focus:border-blue-500 rounded-3xl px-6 py-4 outline-none resize-y transition-colors"></textarea>
+            </div>
+            
+            <button type="submit" id="submitBtn"
+                    class="w-full bg-blue-600 hover:bg-blue-500 transition-colors py-5 rounded-2xl font-semibold text-lg flex items-center justify-center gap-3">
+              Send Message
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </form>
+        </div>
+        
+        <!-- Contact Info -->
+        <div class="md:col-span-2 space-y-10 pt-8">
+          <div>
+            <div class="text-sm uppercase tracking-widest text-zinc-500 mb-2">Email</div>
+            <a href="mailto:paglinawan.jamesdaryll.bscs2022@gmail.com" 
+               class="text-base hover:text-blue-400 transition-colors break-all">
+              paglinawan.jamesdaryll.bscs2022@gmail.com
+            </a>
+          </div>
+          
+          <div>
+            <div class="text-sm uppercase tracking-widest text-zinc-500 mb-4">Find me on</div>
+            <div class="flex flex-col gap-4 text-lg">
+              <a href="https://github.com/JDSP1225" target="_blank" class="flex items-center gap-4 hover:text-blue-400 transition-colors">
+                <i class="fab fa-github text-2xl w-8"></i>
+                <span>GitHub</span>
+              </a>
+              <a href="https://www.linkedin.com/in/james-daryll-paglinawan-6912883a9" target="_blank" class="flex items-center gap-4 hover:text-blue-400 transition-colors">
+                <i class="fab fa-linkedin text-2xl w-8"></i>
+                <span>LinkedIn</span>
+              </a>
+            </div>
+          </div>
+          
+          <div class="pt-8 border-t border-zinc-800">
+            <div class="text-xs text-zinc-500">
+              Based in the Philippines<br>
+              Open to remote opportunities worldwide
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-black py-12 border-t border-zinc-900">
+    <div class="max-w-6xl mx-auto px-6 text-center text-sm text-zinc-500">
+      © 2026 James Daryll Paglinawan. Crafted with ❤️ and a passion for software development. All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    // ── 1. Consistent smooth scrolling (up & down) ───────────────
+    // Uses scrollIntoView with behavior:'smooth' which works in all
+    // directions reliably, instead of calculating absolute offsets.
+    const NAV_HEIGHT = 80;
+
+    function smoothScrollTo(targetId) {
+      const target = document.querySelector(targetId);
+      if (!target) return;
+
+      const targetTop = target.getBoundingClientRect().top + window.scrollY - NAV_HEIGHT;
+
+      window.scrollTo({ top: targetTop, behavior: 'smooth' });
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
+        if (href && href !== '#') {
+          e.preventDefault();
+          smoothScrollTo(href);
+          // Update URL hash without jumping
+          history.pushState(null, '', href);
+        }
+      });
+    });
+
+    // ── 2. Bidirectional fade-in (resets when scrolled back past) ─
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        } else {
+          // Remove 'visible' so it re-animates when scrolled back in
+          entry.target.classList.remove('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('section').forEach((section, index) => {
+      if (index > 0) {
+        section.classList.add('fade-in');
+        observer.observe(section);
+      }
+    });
+
+    // ── 3. Active nav link highlight based on scroll position ─────
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => {
+            link.classList.toggle(
+              'active',
+              link.getAttribute('href') === '#' + entry.target.id
+            );
+          });
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+
+    sections.forEach(s => sectionObserver.observe(s));
+
+    // ── 4. Contact form → opens Gmail compose ────────────────────
+    const form = document.getElementById('contactForm');
+    const toast = document.getElementById('toast');
+    const toastMsg = document.getElementById('toastMsg');
+
+    function showToast(msg, isError = false) {
+      toastMsg.textContent = msg;
+      const icon = toast.querySelector('i');
+      if (isError) {
+        icon.className = 'fas fa-circle-exclamation text-red-400 text-lg';
+      } else {
+        icon.className = 'fas fa-circle-check text-emerald-400 text-lg';
+      }
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3500);
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const name    = document.getElementById('name').value.trim();
+      const email   = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+
+      if (!name || !email || !message) {
+        showToast('Please fill out all fields.', true);
+        return;
+      }
+
+      // Build mailto link targeting your Gmail
+      const recipient = 'paglinawan.jamesdaryll.bscs2022@gmail.com';
+      const subject   = encodeURIComponent(`Portfolio Inquiry from ${name}`);
+      const body      = encodeURIComponent(
+        `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
+      );
+
+      // Opens the user's default mail client (Gmail if set as default,
+      // or any mail app) pre-filled with all the details
+      window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
+
+      showToast(`Opening mail client for you, ${name}!`);
+      form.reset();
+    });
+
+    // ── 5. Keyboard shortcut: "/" focuses the name field ─────────
+    document.addEventListener('keydown', (e) => {
+      const tag = document.activeElement.tagName;
+      if (e.key === '/' && tag !== 'INPUT' && tag !== 'TEXTAREA') {
+        e.preventDefault();
+        document.getElementById('name').focus();
+        smoothScrollTo('#contact');
+      }
+    });
+  </script>
+</body>
+</html>
